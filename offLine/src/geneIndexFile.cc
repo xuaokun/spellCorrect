@@ -1,5 +1,5 @@
-#include "Configure.h"
-#include "DictProducer.h"
+#include "../include/Configure.h"
+#include "../include/DictProducer.h"
 #include <fstream>
 #include <vector>
 #include <unordered_map>
@@ -42,7 +42,7 @@ int main(){
     chdir("../data");
     ofstream ofs("index.data");
     for(auto & word : Index){
-        ofs << word.first << ": ";
+        ofs << word.first << " ";
         for(auto elem:word.second)
             ofs << elem << " ";
         ofs << endl;

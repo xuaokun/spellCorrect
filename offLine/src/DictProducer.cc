@@ -1,4 +1,4 @@
-#include "DictProducer.h"
+#include "../include/DictProducer.h"
 #include <fstream>
 #include <iostream>
 #include <unistd.h>
