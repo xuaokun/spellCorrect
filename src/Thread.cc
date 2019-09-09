@@ -5,11 +5,13 @@
  ///
  
 #include "../include/Thread.h"
-
+#include <hiredis/hiredis.h>
+#include "../include/Redis.h"
 #include <iostream>
 using std::cout;
 using std::endl;
-
+//线程局部变量
+__thread Redis* redis;
 namespace wd
 {
 
@@ -24,7 +26,7 @@ struct ThreadData
 {
 	ThreadData(const string name, ThreadCallback && cb)
 	: _name(name)
-	, _cb(cb)
+	, _cb(std::move(cb))
 	{}
 
 	//子线程中执行
@@ -67,10 +69,13 @@ void Thread::join()
 void * Thread::threadFunc(void * arg)
 {
 	ThreadData * pdata = static_cast<ThreadData *>(arg);
+	redis = new Redis();
+	printf("%s",current_thread::threadName);
+	redis->connect("127.0.0.1",6379);
 	if(pdata)
 		pdata->runInThread();//执行任务
-
 	delete pdata;
+	delete redis;
 	return nullptr;
 }
 
