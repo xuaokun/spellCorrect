@@ -25,8 +25,8 @@ void ReadFile::destroy(){
 
 void ReadFile::ReadDic(Configure &conf){
     ifstream ifs;
-    cout << conf.getConfigMap()["dictFile_EN:"] << endl;
-    ifs.open(conf.getConfigMap()["dictFile_EN:"]);
+    cout << conf.getConfigMap()["dictFile:"] << endl;
+    ifs.open(conf.getConfigMap()["dictFile:"]);
     if(!ifs){
         perror("ifs");
     }

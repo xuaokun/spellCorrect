@@ -1,6 +1,6 @@
-dictFile_EN:    ../data/dic_EN
-indexFile:      ../data/index.data
+dictFile:    ../data/dic.txt  
+indexFile:      ../data/Index.txt
 threadNum:      4
 queSize:        12
-myIP:           192.168.5.214
+myIP:           192.168.43.211
 myPort:         9999

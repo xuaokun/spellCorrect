@@ -45,14 +45,18 @@ class TextQuery
 public:
 	TextQuery(const string & msg,const TcpConnectionPtr & conn)
 	: _msg(msg)
-	, _conn(conn)
+	,_response()
+	,_conn(conn)
 	{}
 	//运行在线程池的某一个子线程中
+	int queryCache();//查询缓存
 	void query();//处理业务逻辑
+	void reply();//将查询结果发送回客户端
 	int distance(const string & rhs);//计算最小编辑距离
-	string geneJson();//生成json格式的字符串
+	void geneJson();//生成json格式的字符串
 private:
 	string _msg;
+	string _response;
 	TcpConnectionPtr _conn;
 	std::priority_queue<MyResult,vector<MyResult>,comp> _resultQue;
 };
