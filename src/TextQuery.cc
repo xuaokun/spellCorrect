@@ -37,11 +37,21 @@ void TextQuery::query(){//处理业务逻辑
     }
     set<int> numSet;//单词序号的集合，去除重复序号
     ReadFile *pread=ReadFile::getInstance();
-    for(size_t i=0;i<_msg.size();i++){//依次遍历查询单词的每个字母
-        for(auto number:pread->getIndex()[string(1,_msg[i])]){//遍历set集合
-           numSet.insert(number);
+    size_t curPos = 0;
+    string oneChar;//英文的一个字母或者中文的一个汉字
+    while(curPos != _msg.size()){
+        size_t wordLen = nBytesCode(_msg[curPos]);
+        oneChar = _msg.substr(curPos,wordLen);
+        for(auto number:pread->getIndex()[oneChar]){
+            numSet.insert(number);
         }
+        curPos += wordLen;//字符后移
     }
+    // for(size_t i=0;i<_msg.size();i++){//依次遍历查询单词的每个字母
+    //     for(auto number:pread->getIndex()[string(1,_msg[i])]){//遍历set集合
+    //        numSet.insert(number);
+    //     }
+    // }
     for(int number:numSet){//将候选词按最小编辑距离由小到大加入集合中
         MyResult myresult;
         myresult._word=(pread->getDict()[number]).first;
