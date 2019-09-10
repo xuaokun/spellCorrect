@@ -44,19 +44,19 @@ DictProducer::DictProducer(const string &dir)
 void DictProducer::addCnFiles()
 {
     string path = _dir;
-    struct dirent* pDirInfo;
-    DIR* pDir;
-    pDir = opendir(path.c_str());
+    struct dirent* pDirInfo;//目录节点指针，指向目录中的各个节点
+    DIR* pDir;//目录指针
+    pDir = opendir(path.c_str());//打开中文语料库的目录
     if(pDir == nullptr){
         perror("opendir");
         return;
     }
-    while((pDirInfo = readdir(pDir)) != nullptr)
+    while((pDirInfo = readdir(pDir)) != nullptr)//依次读取目录包含的各个节点
     {
-        if(*(pDirInfo->d_name) != '.')
-            _cnFiles.push_back(path+'/'+string(pDirInfo->d_name));
+        if(*(pDirInfo->d_name) != '.')//将文件名保存到vector中
+            _cnFiles.push_back(path + '/' + string(pDirInfo->d_name));
     }
-    closedir(pDir);
+    closedir(pDir);//关闭目录
     cout << "已读取中文语料库目录信息" << endl;
     for(auto & s : _cnFiles)
         cout << s << endl;
@@ -70,8 +70,8 @@ void DictProducer::buildCnDict()
                 "../data/jiebaDict/hmm_model.utf8",
                 "../data/jiebaDict/user.dict.utf8",
                 "../data/jiebaDict/idf.utf8",
-                "../data/jiebaDict/stop_words.utf8");
-    for(auto & path : _cnFiles)
+                "../data/jiebaDict/stop_words.utf8");//创建jieba对象，参数为cppjieba自带的词典文件路径
+    for(auto & path : _cnFiles)//接下来用中文语料库创建中文词典
     {
         ifstream is(path);
         if(!is){
@@ -81,8 +81,8 @@ void DictProducer::buildCnDict()
         string s;
         while(is >> s)
         {
-            vector<string> words;
-            jieba.Cut(s,words,true);
+            vector<string> words;//jieba分词的结果保存在vector中
+            jieba.Cut(s,words,true);//cut函数用来对语料库进行分词,第一个参数为待分词的字符串，第二个参数为保存分词结果的容器
             for(auto & word:words)
                 _dict[word]++;
         }

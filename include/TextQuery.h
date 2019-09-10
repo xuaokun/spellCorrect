@@ -47,7 +47,9 @@ public:
 	: _msg(msg)
 	,_response()
 	,_conn(conn)
-	{}
+	{
+		_msg[_msg.size()-1] = '\0';
+	}
 	//运行在线程池的某一个子线程中
 	int queryCache();//查询缓存
 	void query();//处理业务逻辑
